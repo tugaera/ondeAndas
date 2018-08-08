@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Markers</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+	   integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+	   crossorigin=""/>
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+  </head>
+  <body>
+
+	<div class="cover-container d-flex w-100 h-100 p-0 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <!-- NAV MENU -->
+			<nav class="navbar navbar-expand-lg navbar-light bg-light "> <!-- fixed-top -->
+			  <a class="navbar-brand" href="#">Navbar</a>
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+
+			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+				  <li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+				  </li>
+				  <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  Dropdown
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item" href="#">Action</a>
+					  <a class="dropdown-item" href="#">Another action</a>
+					  <div class="dropdown-divider"></div>
+					  <a class="dropdown-item" href="#">Something else here</a>
+					</div>
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link disabled" href="#">Disabled</a>
+				  </li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+				  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+				  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form>
+			  </div>
+			</nav>
+        </div>
+      </header>
+
+      <main role="main" class="inner cover h-100" style="overflow: hidden">
+        <!-- MAP -->
+		<div id="map"></div>
+      </main>
+
+      <footer class="mastfoot mt-auto2" hidden>
+        <div class="inner">
+          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+        </div>
+      </footer>
+    </div>
+	
+	<!-- Make sure you put this AFTER Leaflet's CSS -->
+	<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+	   integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+	   crossorigin=""></script>
+	<script>
+
+		// 40.643526, -7.909663
+		// 40.650, -7.91
+		var mymap = L.map('map').setView([40.650, -7.91], 15);
+		
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 18,
+			id: 'mapbox.streets',
+			accessToken: 'sk.eyJ1IjoiY29lbGhvIiwiYSI6ImNqa2wyNmR2MjE0d2kzcHBobGtwb296c3gifQ.HGI31yQXc80Sg2q1j01xrw'
+		}).addTo(mymap);
+		
+		var marker = L.marker([51.5, -0.09]).addTo(mymap);
+		
+		var circle = L.circle([51.508, -0.11], {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5,
+			radius: 500
+		}).addTo(mymap);
+		
+		var polygon = L.polygon([
+			[51.509, -0.08],
+			[51.503, -0.06],
+			[51.51, -0.047]
+		]).addTo(mymap);
+		
+		// Popup text to marker
+		marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
+		// marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+		circle.bindPopup("I am a circle.");
+		polygon.bindPopup("I am a polygon.");
+		
+		var popup = L.popup()
+			.setLatLng([40.650, -7.91])
+			.setContent("I am a standalone popup.")
+			.openOn(mymap);
+			
+		// Console INFO lat lng	
+		function onMapClick(e) {
+			console.info("You clicked the map at " + e.latlng);
+		}
+
+		mymap.on('click', onMapClick);
+		
+		// Open Popup with Lat Lng
+		var popup = L.popup();
+
+		function onMapClick(e) {
+			popup
+				.setLatLng(e.latlng)
+				.setContent("You clicked the map at " + e.latlng.toString())
+				.openOn(mymap);
+		}
+
+		mymap.on('click', onMapClick);
+		
+		// geoJSON
+		var geojsonFeature = {
+		  "type": "FeatureCollection",
+		  "features": [
+			{
+			  "type": "Feature",
+			  "properties": {
+				"stroke": "#804000",
+				"stroke-width": 3.1,
+				"stroke-opacity": 0.9,
+				"fill": "#ffa980",
+				"fill-opacity": 0.4,
+				"description": "Home Portugal"
+			  },
+			  "geometry": {
+				"type": "Polygon",
+				"coordinates": [
+				  [
+					[
+					  -7.910338640213012,
+					  40.64434041654842
+					],
+					[
+					  -7.9122912883758545,
+					  40.64366473572306
+					],
+					[
+					  -7.9117655754089355,
+					  40.6427285401426
+					],
+					[
+					  -7.910199165344238,
+					  40.643501920043626
+					],
+					[
+					  -7.910027503967285,
+					  40.643803128738284
+					],
+					[
+					  -7.910338640213012,
+					  40.64434041654842
+					]
+				  ]
+				]
+			  }
+			}
+		  ]
+		}
+		
+		function onEachFeature(feature, layer) {
+			// does this feature have a property named popupContent?
+			if (feature.properties && feature.properties.popupContent) {
+				// layer.bindPopup(feature.properties.popupContent);
+			}
+		}
+
+		// L.geoJSON(geojsonFeature).addTo(mymap);
+		L.geoJSON(geojsonFeature, {
+			style: function (feature) {
+				return {
+					color: feature.properties.stroke,
+					weight: feature.properties["stroke-width"],
+					opacity: feature.properties["stroke-opacity"],
+					fillColor: feature.properties.fill,
+					fillOpacity: feature.properties["fill-opacity"],
+				};
+			},
+			onEachFeature: onEachFeature,
+			filter: function(feature, layer) {
+						return true;
+					}
+		}).bindPopup(function (layer) {
+			return layer.feature.properties.description;
+		}).addTo(mymap);
+    </script>
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+  </body>
+</html>
